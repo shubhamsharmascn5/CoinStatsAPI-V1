@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:request-config name="HTTP_Request_configuration_CoinAPI" doc:name="HTTP Request configuration" doc:id="7da7b200-4905-41bf-88f1-f0434cc1ec1e" >
+		<http:request-connection protocol="HTTPS" host="rest.coinapi.io" port="443" />
+	</http:request-config>
+	<sub-flow name="GetExchangeRateSub_Flow" doc:id="4e7b21c4-1f03-4228-9d72-92145a076859" >
+		<http:request method="GET" doc:name="Get all current rates - CoinAPI" doc:id="be232d09-4fc8-4918-8d8e-fb77e0c013d3" path="/v1/exchangerate/{asset_id}" config-ref="HTTP_Request_configuration_CoinAPI">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"X-CoinAPI-Key" : "291893F1-CC7B-4052-AD19-D0B740682C61"
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"asset_id" : attributes.uriParams.asset_id
+}]]]></http:uri-params>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"invert" : "false"
+}]]]></http:query-params>
+		</http:request>
+	</sub-flow>
+</mule>
