@@ -1,1 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
 
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="CoinStatsAPI-main-test-suite.xml" />
+	<munit:test name="CoinStatsAPI-main-test-suite-CoinStatsAPI-mainTest" doc:id="2f59fb6a-355d-4465-a001-5181de17b589" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="6bfae384-5eb8-4177-8fd4-195c1410f341" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="CoinStatsAPI-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="4fd4cee9-f7a1-4545-a2a4-31f4116944a5" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Get all current rates - CoinAPI" attributeName="doc:name" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to CoinStatsAPI-main" doc:id="8edb1a37-6d17-4fac-9b71-2adc96b91e64" name="CoinStatsAPI-main"/>
+		</munit:execution>
+	</munit:test>
+
+
+</mule>
